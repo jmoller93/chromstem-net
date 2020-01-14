@@ -1,0 +1,5 @@
+# Inputs issued to command line
+/hdd/DNA_Projects/1cpn_model/1cpn_simulations/cluster_chromstem/data/nucl_predictor/init/init_1cpn_liquidcrystal.py -n 60
+# All Parameters used
+Namespace(nucleosomes=60)
+SVN $Revision: 4478 $SVN $LastChangedDate: 2017-04-06 10:56:10 -0500 (Thu, 06 Apr 2017) $

@@ -1,0 +1,14 @@
+*
+*
+*
+*
+*
+
+	5 !NATOMS
+       1 MOL1 RESI RESN H       1             0   100.0 0 
+       2 MOL1 RESI RESN H       1             0   100.0 0 
+       3 MOL1 RESI RESN H       1             0   100.0 0 
+       4 MOL1 RESI RESN H       1             0   100.0 0 
+       5 MOL1 RESI RESN H       1             0   100.0 0 
+
+       0 !NBONDS

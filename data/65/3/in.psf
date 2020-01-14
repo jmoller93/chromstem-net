@@ -1,0 +1,74 @@
+*
+*
+*
+*
+*
+
+	65 !NATOMS
+       1 MOL1 RESI RESN H       1             0   100.0 0 
+       2 MOL1 RESI RESN H       1             0   100.0 0 
+       3 MOL1 RESI RESN H       1             0   100.0 0 
+       4 MOL1 RESI RESN H       1             0   100.0 0 
+       5 MOL1 RESI RESN H       1             0   100.0 0 
+       6 MOL1 RESI RESN H       1             0   100.0 0 
+       7 MOL1 RESI RESN H       1             0   100.0 0 
+       8 MOL1 RESI RESN H       1             0   100.0 0 
+       9 MOL1 RESI RESN H       1             0   100.0 0 
+      10 MOL1 RESI RESN H       1             0   100.0 0 
+      11 MOL1 RESI RESN H       1             0   100.0 0 
+      12 MOL1 RESI RESN H       1             0   100.0 0 
+      13 MOL1 RESI RESN H       1             0   100.0 0 
+      14 MOL1 RESI RESN H       1             0   100.0 0 
+      15 MOL1 RESI RESN H       1             0   100.0 0 
+      16 MOL1 RESI RESN H       1             0   100.0 0 
+      17 MOL1 RESI RESN H       1             0   100.0 0 
+      18 MOL1 RESI RESN H       1             0   100.0 0 
+      19 MOL1 RESI RESN H       1             0   100.0 0 
+      20 MOL1 RESI RESN H       1             0   100.0 0 
+      21 MOL1 RESI RESN H       1             0   100.0 0 
+      22 MOL1 RESI RESN H       1             0   100.0 0 
+      23 MOL1 RESI RESN H       1             0   100.0 0 
+      24 MOL1 RESI RESN H       1             0   100.0 0 
+      25 MOL1 RESI RESN H       1             0   100.0 0 
+      26 MOL1 RESI RESN H       1             0   100.0 0 
+      27 MOL1 RESI RESN H       1             0   100.0 0 
+      28 MOL1 RESI RESN H       1             0   100.0 0 
+      29 MOL1 RESI RESN H       1             0   100.0 0 
+      30 MOL1 RESI RESN H       1             0   100.0 0 
+      31 MOL1 RESI RESN H       1             0   100.0 0 
+      32 MOL1 RESI RESN H       1             0   100.0 0 
+      33 MOL1 RESI RESN H       1             0   100.0 0 
+      34 MOL1 RESI RESN H       1             0   100.0 0 
+      35 MOL1 RESI RESN H       1             0   100.0 0 
+      36 MOL1 RESI RESN H       1             0   100.0 0 
+      37 MOL1 RESI RESN H       1             0   100.0 0 
+      38 MOL1 RESI RESN H       1             0   100.0 0 
+      39 MOL1 RESI RESN H       1             0   100.0 0 
+      40 MOL1 RESI RESN H       1             0   100.0 0 
+      41 MOL1 RESI RESN H       1             0   100.0 0 
+      42 MOL1 RESI RESN H       1             0   100.0 0 
+      43 MOL1 RESI RESN H       1             0   100.0 0 
+      44 MOL1 RESI RESN H       1             0   100.0 0 
+      45 MOL1 RESI RESN H       1             0   100.0 0 
+      46 MOL1 RESI RESN H       1             0   100.0 0 
+      47 MOL1 RESI RESN H       1             0   100.0 0 
+      48 MOL1 RESI RESN H       1             0   100.0 0 
+      49 MOL1 RESI RESN H       1             0   100.0 0 
+      50 MOL1 RESI RESN H       1             0   100.0 0 
+      51 MOL1 RESI RESN H       1             0   100.0 0 
+      52 MOL1 RESI RESN H       1             0   100.0 0 
+      53 MOL1 RESI RESN H       1             0   100.0 0 
+      54 MOL1 RESI RESN H       1             0   100.0 0 
+      55 MOL1 RESI RESN H       1             0   100.0 0 
+      56 MOL1 RESI RESN H       1             0   100.0 0 
+      57 MOL1 RESI RESN H       1             0   100.0 0 
+      58 MOL1 RESI RESN H       1             0   100.0 0 
+      59 MOL1 RESI RESN H       1             0   100.0 0 
+      60 MOL1 RESI RESN H       1             0   100.0 0 
+      61 MOL1 RESI RESN H       1             0   100.0 0 
+      62 MOL1 RESI RESN H       1             0   100.0 0 
+      63 MOL1 RESI RESN H       1             0   100.0 0 
+      64 MOL1 RESI RESN H       1             0   100.0 0 
+      65 MOL1 RESI RESN H       1             0   100.0 0 
+
+       0 !NBONDS
