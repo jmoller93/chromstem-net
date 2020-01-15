@@ -31,8 +31,9 @@ for nnucl in {5..65..5}; do
 		cat label*.csv >> merged_label.csv && awk -F'#' 'NF!=2' merged_label.csv > output_label.csv
 
         # Add the working directory to the combined file
-        cwd=`pwd`
         cmd="sed -i -e 's#^#data/${nnucl}/${irep}/#' output_label.csv"
+        eval $cmd
+        cmd="sed -i -e 's/.$//' output_label.csv"
         eval $cmd
 
         # Concatenate all the files into a master file

@@ -59,7 +59,7 @@ int main(int argc, char**argv){
         file << "# Nucl Coordinate file <x> <y> <z> <f1> <f2> <f3>"<<std::endl;
         file << "data-"<<i<<".dat,";
         for (size_t j=0; j<parser.coords_.size(); j++) {
-            for (size_t k=0; k<3; k++) {file<<parser.coords_[j][k]<<", "<<std::setw(3);}
+            for (size_t k=0; k<3; k++) {file<<parser.coords_[j][k]<<",";}
             //for (size_t k=0; k<3; k++) {file<<nucl_orient[j][k]<<", "<<std::setw(3);} Remove quaternions for now
         }
         file<<std::endl;
