@@ -1,5 +1,5 @@
 CC =     g++
-BINDIR = '../../bin'
+BINDIR = '../../../bin'
 LIBRY      =  -L/usr/local/lib -lm 
 INCLD      = -I../include 
 

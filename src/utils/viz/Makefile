@@ -1,6 +1,6 @@
 CC =     g++
 LAMMPS_SRC ?= '../../../lammps-1cpn/src/'
-BINDIR = '../../bin'
+BINDIR = '../../../bin'
 CFLGS      =  -std=c++11
 LIBRY      =  -L/usr/local/lib -lm 
 INCLD      = -I../include -I${LAMMPS_SRC}
