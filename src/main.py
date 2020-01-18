@@ -25,7 +25,7 @@ from dataset import ChromstemDataset
 from nnet import Net
 
 # Model trainer from https://pytorch.org/tutorials/beginner/transfer_learning_tutorial.html
-def train_model(model,data_loader,criterion, optimizer, scheduler, device, num_epochs=25):
+def train_model(model,loaders,criterion, optimizer, scheduler, device, num_epochs=25):
     since = time.time()
 
     for epoch in range(num_epochs):
@@ -38,7 +38,7 @@ def train_model(model,data_loader,criterion, optimizer, scheduler, device, num_e
         model.train()  # Set model to training mode
 
         # Iterate over data.
-        for i,data in enumerate(data_loader,0):
+        for i,data in enumerate(loaders['train'],0):
             inputs, labels = data['chromstem'], data['num_nucls']
             inputs = inputs.to(device)
             labels = labels.to(device)
@@ -63,8 +63,8 @@ def train_model(model,data_loader,criterion, optimizer, scheduler, device, num_e
         scheduler.step()
 
         # Calculate the loss and accuracy
-        epoch_loss = running_loss / len(data_loader)
-        epoch_acc = running_corrects.double() / len(data_loader)
+        epoch_loss = running_loss / len(loaders['train'])
+        epoch_acc = running_corrects.double() / len(loaders['train'])
 
         print('Loss: {:.4f} Acc: {:.4f}'.format(epoch_loss, epoch_acc))
 
@@ -81,11 +81,18 @@ def main():
     args = parser.parse_args()
 
     # Initialize the dataset
-    chromstem_dataset = ChromstemDataset('../output_label.csv','../')
+    train_dataset = ChromstemDataset('../trains_label.csv','../')
+    test_dataset  = ChromstemDataset('../tests_label.csv','../')
+    val_dataset   = ChromstemDataset('../vals_label.csv','../')
 
     # Dataloaders
-    trainloader = torch.utils.data.DataLoader(chromstem_dataset, batch_size=4,shuffle=True,num_workers=4)
-    testloader  = torch.utils.data.DataLoader(chromstem_dataset, batch_size=4,shuffle=False,num_workers=4)
+    trainloader = torch.utils.data.DataLoader(train_dataset, batch_size=4,shuffle=True,num_workers=4)
+    testloader  = torch.utils.data.DataLoader(test_dataset, batch_size=4,shuffle=False,num_workers=4)
+    valloader   = torch.utils.data.DataLoader(val_dataset, batch_size=4,shuffle=True,num_workers=4)
+    loaders = {'train' : trainloader,
+               'test'  : testloader,
+               'val'   : valloader
+              }
 
     # Initialize the neural net
     model = Net()
@@ -99,7 +106,7 @@ def main():
 
     # Train the neural net for the appropriate number of epochs
     model = train_model(model, # Neural net
-                        trainloader, # Data (for now it is only training data)
+                        loaders, # Data (for now it is only training data)
                         criterion, # Loss criteria
                         optimizer, # Optimization routine
                         exp_lr_scheduler, # Learning rate scheduler

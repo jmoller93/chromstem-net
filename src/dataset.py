@@ -58,7 +58,7 @@ class ChromstemDataset(Dataset):
         nucl_coords = self.nucl_coords_frame_.iloc[idx,1:]
         nucl_coords = np.asarray([nucl_coords])
         nucl_coords = nucl_coords.astype('float').reshape(-1,3)
-        num_nucls = int(chromstem_name.split('/data/')[1].split('/')[0])
+        num_nucls = int(chromstem_name.split('/data-')[0].split('data/')[1].split('/')[1].split('/')[0])
 
         sample = {'chromstem' : chromstem, 'nucl_coords' : nucl_coords, 'num_nucls' : num_nucls}
 

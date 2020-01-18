@@ -100,10 +100,17 @@ for nnucl in {5..65..5}; do
         rm train_label.csv
     fi
     cd ..
-    cmd="sed -i -e 's/.$//' train_label.csv"
-    eval $cmd
 done
 
-mv data/train_label.csv ./trains_label.csv
+mv train_label.csv ../trains_label.csv
 cd $idir
+
+cmd="sed -i -e 's/.$//' trains_label.csv"
+eval $cmd
+cmd="sed -i -e 's/.$//' vals_label.csv"
+eval $cmd
+cmd="sed -i -e 's/.$//' tests_label.csv"
+eval $cmd
+
+echo "Data now generated and labeled"
 
