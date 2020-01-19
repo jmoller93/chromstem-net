@@ -11,6 +11,7 @@ Args:
 # Import necessary libraries
 import os
 import time
+import copy
 import argparse
 import numpy as np
 import matplotlib.pyplot as plt
@@ -28,6 +29,11 @@ from nnet import Net
 def train_model(model,loaders,criterion, optimizer, scheduler, device, num_epochs=25):
     since = time.time()
 
+    # Load best possible model
+    best_model_wts = copy.deepcopy(model.state_dict())
+    best_acc = 0.0
+
+    # Loop through training epochs
     for epoch in range(num_epochs):
         print('Epoch {}/{}'.format(epoch, num_epochs - 1))
         print('-' * 10)
@@ -35,38 +41,53 @@ def train_model(model,loaders,criterion, optimizer, scheduler, device, num_epoch
         running_loss = 0.0
         running_corrects = 0
 
-        model.train()  # Set model to training mode
+        # Loop through evaluation and training
+        for phase in ['train','val']:
+            if phase == 'train':
+                model.train()  # Set model to training mode
+            elif phase == 'val':
+                model.eval()
 
-        # Iterate over data.
-        for i,data in enumerate(loaders['train'],0):
-            inputs, labels = data['chromstem'], data['num_nucls']
-            inputs = inputs.to(device)
-            labels = labels.to(device)
+            # Iterate over data.
+            for i,data in enumerate(loaders[phase],0):
+                inputs, labels = data['chromstem'], data['num_nucls']
+                inputs = inputs.to(device)
+                labels = labels.to(device)
 
-            # zero the parameter gradients
-            optimizer.zero_grad()
+                # zero the parameter gradients
+                optimizer.zero_grad()
 
-            # forward
-            # track history if only in train
-            outputs = model(inputs)
-            _, preds = torch.max(outputs, 1)
-            loss = criterion(outputs, labels)
+                # forward
+                # track history if only in train
+                with torch.set_grad_enabled(phase == 'train'):
+                    outputs = model(inputs)
+                    _, preds = torch.max(outputs, 1)
+                    loss = criterion(outputs, labels)
 
-            loss.backward()
-            optimizer.step()
+                    if phase == 'train':
+                        loss.backward()
+                        optimizer.step()
 
-            # statistics
-            running_loss += loss.item() * inputs.size(0)
-            running_corrects += torch.sum(preds == labels.data)
+                # Capture running statistics
+                running_loss += loss.item() * inputs.size(0)
+                running_corrects += torch.sum(preds == labels.data)
 
-        # After each epoch move the scheduler forward
-        scheduler.step()
+            # After each training epoch move the scheduler forward
+            if phase == 'train':
+                scheduler.step()
 
-        # Calculate the loss and accuracy
-        epoch_loss = running_loss / len(loaders['train'])
-        epoch_acc = running_corrects.double() / len(loaders['train'])
+            # Calculate loss and accuracy for each
+            epoch_loss = running_loss / len(loaders[phase])
+            epoch_acc = running_corrects.double() / len(loaders[phase])
 
-        print('Loss: {:.4f} Acc: {:.4f}'.format(epoch_loss, epoch_acc))
+            # Print the loss
+            print('Loss: {:.4f} Acc: {:.4f}'.format(epoch_loss, epoch_acc))
+
+            # Save best version of the model on validation set
+            if phase == 'val' and epoch_acc > best_acc:
+                best_acc = epoch_acc
+                best_model_wts = copy.deepcopy(model.state_dict())
+
 
     time_elapsed = time.time() - since
     print('Training complete in {:.0f}m {:.0f}s'.format(
