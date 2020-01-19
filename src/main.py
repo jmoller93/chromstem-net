@@ -22,6 +22,7 @@ from torch.optim import lr_scheduler
 from torch.utils.data import Dataset, DataLoader
 
 # Import local classes
+from hyperparams import HyperParameters
 from dataset import ChromstemDataset
 from nnet import Net
 
@@ -38,15 +39,15 @@ def train_model(model,loaders,criterion, optimizer, scheduler, device, num_epoch
         print('Epoch {}/{}'.format(epoch, num_epochs - 1))
         print('-' * 10)
 
-        running_loss = 0.0
-        running_corrects = 0
-
         # Loop through evaluation and training
         for phase in ['train','val']:
             if phase == 'train':
                 model.train()  # Set model to training mode
             elif phase == 'val':
                 model.eval()
+
+            running_loss = 0.0
+            running_corrects = 0
 
             # Iterate over data.
             for i,data in enumerate(loaders[phase],0):
@@ -113,17 +114,21 @@ def main():
     test_dataset  = ChromstemDataset('../tests_label.csv','../')
     val_dataset   = ChromstemDataset('../vals_label.csv','../')
 
+    # Initialize the hyperparameters
+    hyperparams = HyperParameters()
+
     # Dataloaders
-    trainloader = torch.utils.data.DataLoader(train_dataset, batch_size=4,shuffle=True,num_workers=4)
-    testloader  = torch.utils.data.DataLoader(test_dataset, batch_size=4,shuffle=False,num_workers=4)
-    valloader   = torch.utils.data.DataLoader(val_dataset, batch_size=4,shuffle=True,num_workers=4)
+    trainloader = torch.utils.data.DataLoader(train_dataset, batch_size=hyperparams.batch_size,shuffle=True,num_workers=hyperparams.num_workers)
+    testloader  = torch.utils.data.DataLoader(test_dataset, batch_size=hyperparams.batch_size,shuffle=False,num_workers=hyperparams.num_workers)
+    valloader   = torch.utils.data.DataLoader(val_dataset, batch_size=hyperparams.batch_size,shuffle=True,num_workers=hyperparams.num_workers)
+
     loaders = {'train' : trainloader,
                'test'  : testloader,
                'val'   : valloader
               }
 
     # Initialize the neural net
-    model = Net()
+    model = Net(hyperparams.filter_size,hyperparams.pool_size)
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
     exp_lr_scheduler = lr_scheduler.StepLR(optimizer,step_size=7,gamma=0.1)
