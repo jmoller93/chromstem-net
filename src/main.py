@@ -101,6 +101,13 @@ def main():
     parser.add_argument('--n_epoch','-n',type=int,help='Number of epochs to train the network with',required=True)
     args = parser.parse_args()
 
+    # Make sure files exists
+    labels = ['trains','tests','vals']
+    for label in labels:
+        fnme = '../' + label + '_label.csv'
+        if not os.path.isfile(fnme):
+            raise EnvironmentError("File %s is not found!\n Please run the label_data.sh script in the home directory!\n" % fnme)
+
     # Initialize the dataset
     train_dataset = ChromstemDataset('../trains_label.csv','../')
     test_dataset  = ChromstemDataset('../tests_label.csv','../')
