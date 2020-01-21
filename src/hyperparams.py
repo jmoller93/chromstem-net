@@ -15,7 +15,7 @@ Args:
 """
 
 class HyperParameters():
-    def __init__(self,batch_size=4,num_workers=1,filter_size=3,pool_size=2):
+    def __init__(self,batch_size=128,num_workers=8,filter_size=3,pool_size=2):
         self.batch_size=batch_size
         self.num_workers=num_workers
         self.filter_size=filter_size
