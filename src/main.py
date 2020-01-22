@@ -99,13 +99,15 @@ def train_model(model,loaders,criterion, optimizer, scheduler, device, num_epoch
     return model,best_model_wts
 
 # Test the accuracy of the model on the testing set
-def test_model(model,loader,device):
+def test_model(model,loader,device,batch_size):
     # Set model to evaluation mode
     model.eval()
 
     # Initialize accuracy calculation
     correct = 0.0
     total   = 0.0
+    class_correct = list(0. for i in range(100))
+    class_total   = list(0. for i in range(100))
 
     # Iterate over data.
     for i,data in enumerate(loader,0):
@@ -113,11 +115,15 @@ def test_model(model,loader,device):
         inputs = inputs.to(device)
         labels = labels.to(device)
 
-        # forward
-        # track history if only in train
+        # Get accuracy of each prediction as well
         with torch.set_grad_enabled(False):
             outputs = model(inputs)
             _, preds = torch.max(outputs, 1)
+            c = (preds == labels).squeeze()
+            for i in range(labels.size(0)):
+                label = labels[i]
+                class_correct[label] += c[i].item()
+                class_total[label]   += 1
 
         # Capture running statistics
         correct += torch.sum(preds == labels.data)
@@ -127,7 +133,12 @@ def test_model(model,loader,device):
     accuracy = correct / total * 100.0
 
     # Print accuracy of the model
-    print('Testing accuracy: {:.4f}'.format(accuracy))
+    print('Total testing accuracy: {:.4f}'.format(accuracy))
+    for i in range(100):
+        if class_total[i] != 0:
+            print('Accuracy of %3d nucls : %2.2f %%' % (i,100*class_correct[i]/class_total[i]) )
+        #else:
+            #print('Accuracy of %3d nucls : 00.00 %%' % (i))
 
 def main():
     # Parse the inputs
@@ -201,7 +212,7 @@ def main():
     model.load_state_dict(best_wts)
 
     # Evaluate the models test accuracy
-    test_model(model,loaders['test'],device)
+    test_model(model,loaders['test'],device,hyperparams.batch_size)
 
     return
 

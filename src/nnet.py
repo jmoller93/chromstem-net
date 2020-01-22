@@ -13,16 +13,14 @@ import torch.nn.functional as F
 class Net(nn.Module):
     def __init__(self,filter_size,pool_size):
         super(Net,self).__init__()
-        self.conv1 = nn.Conv3d(1,4,filter_size)
-        self.conv2 = nn.Conv3d(4,8,filter_size)
-        self.conv3 = nn.Conv3d(8,16,filter_size)
+        self.conv1 = nn.Conv3d(1,8,filter_size)
+        self.conv2 = nn.Conv3d(8,16,filter_size)
         self.pool = nn.MaxPool3d(pool_size,pool_size)
-        self.fc1   = nn.Linear(16*4*2,100)
+        self.fc1   = nn.Linear(16*343,100)
 
     def forward(self,x):
         x = self.pool(F.relu(self.conv1(x)))
         x = self.pool(F.relu(self.conv2(x)))
-        x = self.pool(F.relu(self.conv3(x)))
         x = x.view(-1, self.num_flat_features(x))
         x = self.fc1(x)
         return x
