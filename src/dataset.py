@@ -37,7 +37,7 @@ class ChromstemDataset(Dataset):
     # Reads the '.dat' data file
     def read_chromstem(self,fnme):
         x,y,z,rho = np.loadtxt(fnme,comments='#',unpack=True)
-        rho_factor   = rho.max()/27.00 # Normalize in the same way the experimentalists do
+        rho_factor   = 27.00/rho.max() # Normalize in the same way the experimentalists do
         tensor = torch.zeros_like(torch.empty(1,int(x[0]),int(y[0]),int(z[0])))
 
         for i,arr in enumerate(zip(x[1:],y[1:],z[1:])):
