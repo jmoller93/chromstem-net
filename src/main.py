@@ -144,6 +144,7 @@ def main():
     # Parse the inputs
     parser = argparse.ArgumentParser(description='Inputs for the neural network trainer')
     parser.add_argument('--n_epoch','-n',type=int,help='Number of epochs to train the network with',required=True)
+    parser.add_argument('--frac','-f',type=float,default=1.0,help='Fraction of the dataset to train on',required=False)
     parser.add_argument('--load','-l',dest='load', action='store_true', help='Load previous model instead of training the network')
     args = parser.parse_args()
 
@@ -164,9 +165,9 @@ def main():
             raise EnvironmentError("File %s is not found!\n Please run the label_data.sh script in the home directory!\n" % fnme)
 
     # Initialize the dataset
-    train_dataset = ChromstemDataset('../trains_label.csv','../')
-    test_dataset  = ChromstemDataset('../tests_label.csv','../')
-    val_dataset   = ChromstemDataset('../vals_label.csv','../')
+    train_dataset = ChromstemDataset('../trains_label.csv','../',frac=args.frac)
+    test_dataset  = ChromstemDataset('../tests_label.csv','../',frac=args.frac)
+    val_dataset   = ChromstemDataset('../vals_label.csv','../', frac=args.frac)
 
     # Initialize the hyperparameters
     hyperparams = HyperParameters(batch_size=64,num_workers=2)

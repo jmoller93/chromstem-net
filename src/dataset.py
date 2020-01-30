@@ -11,6 +11,7 @@ Args:
 """
 import os
 import torch
+import random
 import numpy as np
 import pandas as pd
 from torch.utils.data import Dataset
@@ -18,7 +19,7 @@ from torch.utils.data import Dataset
 class ChromstemDataset(Dataset):
     """Chromstem Dataset"""
 
-    def __init__(self,csv_file,root_dir,transform=None):
+    def __init__(self,csv_file,root_dir,frac=1.0,transform=None):
         """
         Args:
             csv_file (string): Master CSV file that will hold all the data
@@ -26,11 +27,16 @@ class ChromstemDataset(Dataset):
             transform (callable, optional): Optional transformations to samples
         """
 
+        # Open file
         f = open(csv_file,'r')
         csv_length = len(f.readlines()[-1].split(','))
+        ndata = sum(1 for line in open(csv_file))
         f.close()
         col_names = ['File'] + ['Nucl%d' % i for i in range(csv_length-1)]
-        self.nucl_coords_frame_ = pd.read_csv(csv_file,engine='python',header=None,names=col_names)
+
+        # Randomly take some of dataset not just all of it for quicker training
+        skip = sorted(random.sample(range(ndata),int(ndata*(1.0-frac))))
+        self.nucl_coords_frame_ = pd.read_csv(csv_file,engine='python',header=None,names=col_names,skiprows=skip)
         self.root_dir_ = root_dir
         self.transform_ = transform
 
@@ -59,9 +65,9 @@ class ChromstemDataset(Dataset):
         nucl_coords = self.nucl_coords_frame_.iloc[idx,1:]
         nucl_coords = np.asarray([nucl_coords])
         nucl_coords = nucl_coords.astype('float').reshape(-1,3)
-        num_nucls = int(chromstem_name.split('/data-')[0].split('data/')[1].split('/')[1].split('/')[0])
+        num_nucls = int(chromstem_name.split('/data-')[0].split('wdir/')[1].split('/')[1].split('/')[0])
 
-        sample = {'chromstem' : chromstem, 'nucl_coords' : nucl_coords, 'num_nucls' : num_nucls}
+        sample = {'chromstem' : chromstem, 'nucl_coords' : nucl_coords, 'num_nucls' : num_nucls-1}
 
         if self.transform_:
             sample = self.transform_(sample)
