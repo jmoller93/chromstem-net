@@ -331,6 +331,10 @@ std::vector<std::vector<double>> TrajectoryIterator::get_vect(char type) {
     if(type == 'f') { fvu0[0] = 1; fvu0[1] = 0; fvu0[2] = 0; }
     else if(type == 'v') { fvu0[0] = 0; fvu0[1] = 1; fvu0[2] = 0; }
     else if(type == 'u') { fvu0[0] = 0; fvu0[1] = 0; fvu0[2] = 1; }
+    else if(type == 'b' || type == 'd') { 
+        if(type == 'b') {fvu0[0] = 0.3333; fvu0[1] = 0.6667; fvu0[2] = 0.6667;} // Standard vector
+        if(type == 'd') {fvu0[0] = -0.3333; fvu0[1] = -0.6667; fvu0[2] = -0.6667;} // Standard negative vector
+    }
     else { std::cout<<"Warning: "<<type<<" does not name a vector type"<<std::endl; }
 
     //Construct the LAMMPS formalism for quaternion calculations
